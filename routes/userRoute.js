@@ -5,7 +5,7 @@ import { isAuthenticatedUser } from "../middleware/auth.js";
 const router=express.Router();
 
 router.route("/register").post(register);
-router.route("/login").get(login)
+router.route("/login").post(login)
 router.route("/userdetail").get(isAuthenticatedUser,getUserDetails)
 router.route("/Alluserdetail").get(isAuthenticatedUser,getAllUser)
 export default  router;
