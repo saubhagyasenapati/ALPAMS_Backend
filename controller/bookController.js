@@ -29,7 +29,7 @@ export const getAllBooks = catchAsyncErrors(async (req, res,next) => {
 
  //Detete A Book 
   export const deleteABook = catchAsyncErrors(async (req, res,next) => {
-    const book = await Book.findById(req.params.id);
+    const book = await Book.findById(req.query.id);
     if (!book) {
       return res.status(500).json({
         success: false,
@@ -47,14 +47,14 @@ export const getAllBooks = catchAsyncErrors(async (req, res,next) => {
 
   //Modify Book Details
   export const updateBook = catchAsyncErrors(async (req, res, next) => {
-    let book = await Book.findById(req.params.id);
+    let book = await Book.findById(req.query.id);
     if (!book) {
       return res.status(500).json({
         success: false,
         message: "Book not Found",
       });
     }
-    book = await Book.findByIdAndUpdate(req.params.id, req.body, {
+    book = await Book.findByIdAndUpdate(req.query.id, req.body, {
         new: true,
         runValidators: true,
         useFindAndModify: false,
@@ -65,5 +65,15 @@ export const getAllBooks = catchAsyncErrors(async (req, res,next) => {
         book,
       });
     });
-
- 
+//GET A BOOK DETAIL
+ export const getBookDetails=catchAsyncErrors(async(req,res,next)=>{
+  const book = await Book.find({ISBN:req.query.ISBN});
+  if(!book){
+    console.log("Book Not Avaiiable Currently");
+  }
+  console.log(book);
+  res.status(200).json({
+    success:true,
+    book
+  })
+ })
