@@ -33,7 +33,7 @@ const bookSchema = new mongoose.Schema({
   },
   ISBN:{
     type:String,
-    required:[true,"Please enter Book Stock"],
+    required:[true,"Please enter ISBN Number"],
   },
   createdAt:{
     type:Date,

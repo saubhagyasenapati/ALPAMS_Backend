@@ -16,7 +16,7 @@ export const bookIssue=catchAsyncErrors(async(req,res,next)=>{
             user:req.user.id,
             bookId:req.body.bookId,
             bookName:req.body.bookName,
-      
+            ISBN:req.body.ISBN
            }
         );
 
@@ -68,6 +68,26 @@ export const extendIssue=catchAsyncErrors(async(req,res,next)=>{
     const book= await Book.findById(bookIssue.bookId)
     console.log(book);
     book.Stock=book.Stock+1
+    bookIssue.currentStatus="Returned"
+    await book.save({validateBeforeSave:false})
+    await bookIssue.save({validateBeforeSave:false})
+    res.status(200).json({
+      success: true,
+      message: "Book Returned successfully",
+    });
+    
+  });
+  export const bookDelete = catchAsyncErrors(async (req, res,next) => {
+    const bookIssue = await BookIssue.findById(req.body.id);
+    if (!bookIssue) {
+      return res.status(500).json({
+        success: false,
+        message: "Book Issue Detail Not Available",
+      });
+    }
+    const book= await Book.findById(bookIssue.bookId)
+    console.log(book);
+    book.Stock=book.Stock+1
     await book.save({validateBeforeSave:false})
     await bookIssue.remove();
     res.status(200).json({
@@ -76,6 +96,14 @@ export const extendIssue=catchAsyncErrors(async(req,res,next)=>{
     });
     
   });
+//Book Issue Per Specic User
+export const getAllUserIssues = catchAsyncErrors(async (req, res,next) => {
+  const BookIssues = await BookIssue.find({user:req.user._id});
+  res.status(200).json({
+    success: true,
+    BookIssues,
+  });
+});
 //All Book Allocation
 export const getAllIssues = catchAsyncErrors(async (req, res,next) => {
     const BookIssues = await BookIssue.find();

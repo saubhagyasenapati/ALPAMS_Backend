@@ -1,5 +1,5 @@
 import express from "express"
-import { bookIssue, bookReturn,extendIssue, getAllIssues } from "../controller/bookIssueController.js";
+import { bookIssue,bookReturn,bookDelete,extendIssue, getAllIssues, getAllUserIssues } from "../controller/bookIssueController.js";
 
 
 
@@ -11,6 +11,8 @@ const router=express.Router();
 router.route("/CreateIssue").post(isAuthenticatedUser,bookIssue);
 router.route("/Extend").put(extendIssue);
 router.route("/AllIssue").get(getAllIssues);
+router.route("/DeteteIssue").delete(bookDelete);
 router.route("/ReturnIssue").delete(bookReturn);
+router.route("/Alluserissue").get(isAuthenticatedUser,getAllUserIssues);
 
 export default  router;
