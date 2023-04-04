@@ -41,7 +41,7 @@ export const bookIssue=catchAsyncErrors(async(req,res,next)=>{
 //Modify Issue
 export const extendIssue=catchAsyncErrors(async(req,res,next)=>{
     try {
-      const bookIssue=await bookIssue.findById(req.body.id)
+      const bookIssue=await BookIssue.findById(req.body.id)
       
       if(!bookIssue)
       {
