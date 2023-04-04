@@ -47,7 +47,7 @@ export const extendIssue=catchAsyncErrors(async(req,res,next)=>{
       {
         return next(new ErrorHandler("Book Not Issued to this User",400));
       }
-        bookIssue.returnDate=Date.now()+req.body.days*24*60*60*1000;
+        bookIssue.returnDate=Date.now()+7*24*60*60*1000;
         await bookIssue.save({validateBeforeSave:false});
         res.status(200).json({success:true,message:"Book Return day Extended"})
     } catch (error) {
@@ -69,6 +69,7 @@ export const extendIssue=catchAsyncErrors(async(req,res,next)=>{
     console.log(book);
     book.Stock=book.Stock+1
     bookIssue.currentStatus="Returned"
+    bookIssue.returnDate=Date.now()
     await book.save({validateBeforeSave:false})
     await bookIssue.save({validateBeforeSave:false})
     res.status(200).json({
@@ -92,7 +93,7 @@ export const extendIssue=catchAsyncErrors(async(req,res,next)=>{
     await bookIssue.remove();
     res.status(200).json({
       success: true,
-      message: "Book Returned successfully",
+      message: "BookIssue Deleted successfully",
     });
     
   });
