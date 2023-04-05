@@ -76,7 +76,7 @@ export const deleteAPass = catchAsyncErrors(async (req, res,next) => {
 
 //All library Pass
 export const getAllPass = catchAsyncErrors(async (req, res,next) => {
-    const LibraryPasss = await LibraryPass.find();
+    const LibraryPasss = await LibraryPass.find().sort({inTime: -1});
     res.status(200).json({
       success: true,
       LibraryPasss ,
@@ -85,7 +85,7 @@ export const getAllPass = catchAsyncErrors(async (req, res,next) => {
 
   //ALL User passes
   export const getAllUserPass = catchAsyncErrors(async (req, res,next) => {
-    const libraryPass = await LibraryPass.find({user:req.user._id});
+    const libraryPass = await LibraryPass.find({user:req.user._id}).sort({inTime: -1});
     res.status(200).json({
       success: true,
       libraryPass ,

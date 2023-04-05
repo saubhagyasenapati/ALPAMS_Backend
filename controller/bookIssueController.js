@@ -97,7 +97,7 @@ export const extendIssue=catchAsyncErrors(async(req,res,next)=>{
   });
 //Book Issue Per Specic User
 export const getAllUserIssues = catchAsyncErrors(async (req, res,next) => {
-  const BookIssues = await BookIssue.find({user:req.user._id});
+  const BookIssues = await BookIssue.find({user:req.user._id}).sort({issueDate: -1});
   res.status(200).json({
     success: true,
     BookIssues,
@@ -105,7 +105,7 @@ export const getAllUserIssues = catchAsyncErrors(async (req, res,next) => {
 });
 //All Book Allocation
 export const getAllIssues = catchAsyncErrors(async (req, res,next) => {
-    const BookIssues = await BookIssue.find();
+    const BookIssues = await BookIssue.find().sort({issueDate: -1});
     res.status(200).json({
       success: true,
       BookIssues,
