@@ -5,7 +5,7 @@ import { ErrorHandler } from "../util/Errorhandler.js";
 import { catchAsyncErrors } from "../middleware/catchAsyncError.js";
 export  const register=catchAsyncErrors(async(req,res)=>{
     try {
-        const {name,email,password}=req.body;
+        const {name,email,password,rollno}=req.body;
         let user=await User.findOne({email});
         if(user)
         {
@@ -27,7 +27,7 @@ export  const register=catchAsyncErrors(async(req,res)=>{
         //     })
         // }
         user=await User.create({
-            name,email,password,
+            name,email,password,rollno
         });
        
         sendToken(user,201,res,"User Created Successfully") 
@@ -108,5 +108,14 @@ export const getAllUser=catchAsyncErrors(async(req,res,next)=>{
     res.status(200).json({
         success:true,
         users,
+    });
+});
+
+export const deleteAUser=catchAsyncErrors(async(req,res,next)=>{
+    const user=await User.findById(req.body.id);
+    await user.remove();
+    res.status(200).json({
+      success: true,
+      message: "User Deleted successfully",
     });
 });

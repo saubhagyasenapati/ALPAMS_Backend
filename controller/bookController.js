@@ -69,9 +69,12 @@ export const getAllBooks = catchAsyncErrors(async (req, res,next) => {
  export const getBookDetails=catchAsyncErrors(async(req,res,next)=>{
   const book = await Book.find({ISBN:req.query.ISBN});
   if(!book){
-    console.log("Book Not Avaiiable Currently");
+    res.status(200).json({
+      success:false,
+      message:"Book Not Avaiiable Currently"
+    })
   }
-  console.log(book);
+  
   res.status(200).json({
     success:true,
     book

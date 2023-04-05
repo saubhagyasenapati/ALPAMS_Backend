@@ -12,6 +12,12 @@ const userSchema = new mongoose.Schema({
     maxLength: [30, "Name cannot be more than 30 characters"],
     minLength: [4, "Name should have more than 4 characters"],
   },
+  rollno:{
+    type: String,
+    required: [true, "Please Enter Your Roll Number"],
+    maxLength: [10, "Name cannot be more than 10 characters"],
+    minLength: [6, "Name should have more than 6 characters"],
+  },
   email: {
     type: String,
     required: [true, "Please Enter Your Email"],

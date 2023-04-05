@@ -6,9 +6,13 @@ const libraryPassSchema = new mongoose.Schema({
     ref:"User",
     required:true,
   },
+  status:{
+    type:String,
+    default:"IN"
+  },
   inTime: {
     type:Date,
-    default:Date.now
+    default:Date.now() + 6 * (60 * 60 * 1000) 
   },
   outTime:Date,
   scanCode:{

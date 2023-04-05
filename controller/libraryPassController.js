@@ -9,18 +9,33 @@ import { LibraryPass } from "../Models/LibraryPassModel.js";
 export const CreatePass=catchAsyncErrors(async(req,res,next)=>{
     const{scanCode}=req.body
     try {
+      const libraryPass = await LibraryPass.find({user:req.user._id});
+      const it = libraryPass[Symbol.iterator]()
+      let LP={}
+      for (let value of it) {
+       if(value.status=="IN"){
+        LP=value
+        }
+      }
+     if(LP.status=="IN"){
+      res.status(500).json({success:false,message:"Not Exited The Library In Previous Pass"})
+     }  
+    else{
+      const Lpass=await LibraryPass.create(
+        {
+         user:req.user.id,
+         inTime:Date.now()+6*60*60*1000-30*60*1000 ,
+         scanCode:scanCode
+        }
+        
+     );
+     res.status(200).json({success:true,message:"Library Pass Created Sucessfully"})
+    }
        
-       const Lpass=await LibraryPass.create(
-           {
-            user:req.user.id,
-            inTime:Date.now(),
-            scanCode:scanCode
-           }
-        );
-        res.status(200).json({success:true,message:"Library Pass Created Sucessfully"})
     } catch (error) {
         res.status(500).json({success:false,message:error.message})
     }
+  
 })
 
 //Modify Pass
@@ -32,7 +47,8 @@ export const ModifyPass=catchAsyncErrors(async(req,res,next)=>{
       {
         return next(new ErrorHandler("Pass not found",400));
       }
-        Lpass.outTime=Date.now();
+        Lpass.status="OUT";
+        Lpass.outTime=Date.now()+6*60*60*1000-30*60*1000;
         await Lpass.save({validateBeforeSave:false});
         res.status(200).json({success:true,message:"Library Pass Out Successful"})
     } catch (error) {
@@ -64,5 +80,30 @@ export const getAllPass = catchAsyncErrors(async (req, res,next) => {
     res.status(200).json({
       success: true,
       LibraryPasss ,
+    });
+  });
+
+  //ALL User passes
+  export const getAllUserPass = catchAsyncErrors(async (req, res,next) => {
+    const libraryPass = await LibraryPass.find({user:req.user._id});
+    res.status(200).json({
+      success: true,
+      libraryPass ,
+    });
+  });
+
+  export const getUserPass = catchAsyncErrors(async (req, res,next) => {
+    const libraryPass = await LibraryPass.find({user:req.user._id});
+    const it = libraryPass[Symbol.iterator]()
+    let LP={}
+    for (let value of it) {
+     if(value.status=="IN"){
+      LP=value
+      }
+    }
+      
+    res.status(200).json({
+      success: true,
+      LP ,
     });
   });
