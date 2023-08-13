@@ -7,10 +7,10 @@ import { catchAsyncErrors } from "../middleware/catchAsyncError.js";
 //ADD Book Details
 export const bookAdd=catchAsyncErrors(async(req,res,next)=>{
     try {
-        const {name,description,category,Stock,ISBN,images}=req.body;
+        const {name,description,category,Stock,ISBN,image}=req.body;
 
        const book=await Book.create({
-            name,description,category,Stock,ISBN,images
+            name,description,category,Stock,ISBN,image
         });
         res.status(200).json({success:true,message:"Book Created Sucessfully"})
     } catch (error) {
