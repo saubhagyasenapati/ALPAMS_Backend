@@ -10,6 +10,10 @@ const bookIssueSchema = new mongoose.Schema({
         type:String,
         required:true
     },
+    bookImage:{
+      type:String,
+      required:true
+    },
     ISBN:{
       type:String,
       required:[true,"Please enter ISBN Number"],
