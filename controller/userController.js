@@ -54,8 +54,11 @@ export const login=catchAsyncErrors(async(req,res,next)=>{
         if(!isPasswordMatched){
             return next(new ErrorHandler("Invalid email or password",401))
         }
-    
-        sendToken(user,200,res,"User Login Success")
+        const user2 = await User.findOne(
+            { email },
+            { password: 0 } // Exclude the 'password' field
+          );
+        sendToken(user2,200,res,"User Login Success")
        
     } catch (error) {
         res.status(500).json({success:false,message:error.message})
