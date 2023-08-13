@@ -10,18 +10,13 @@ const bookSchema = new mongoose.Schema({
     type: String,
     required: [true, "Please Enter Book description"],
   },
-  images:[
+  image:
     {
-        public_id:{
             type:String,
             required:true
-        },
-        url:{
-            type:String,
-            required:true
-        }
+        
       }
-  ],
+  ,
   category:{
     type:String,
     required:[true,"Please Enter Book Category"]
