@@ -10,16 +10,16 @@ import { Book } from "../Models/bookModel.js";
 //Issue Book
 export const bookIssue=catchAsyncErrors(async(req,res,next)=>{
     try {
-       
+       console.log(req.body);
        const bookIssue=await BookIssue.create(
            {
             user:req.user.id,
             bookId:req.body.bookId,
             bookName:req.body.bookName,
-            ISBN:req.body.ISBN
+            ISBN:req.body.ISBN,
+            bookImage:req.body.bookImage
            }
         );
-
         const book= await Book.findById(req.body.bookId)
         if(book.Stock<1){
           return next(new ErrorHandler("Book Cannot be Issued",400))
