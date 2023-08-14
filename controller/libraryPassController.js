@@ -45,12 +45,18 @@ export const ModifyPass=catchAsyncErrors(async(req,res,next)=>{
       
       if(!Lpass)
       {
-        return next(new ErrorHandler("Pass not found",400));
+        res.status(500).json({success:false,message:"Pass not found"})
       }
+      else if(Lpass.status==='OUT'){
+        res.status(500).json({success:false,message:"Already Exited the Library"})
+      }
+      else{
         Lpass.status="OUT";
         Lpass.outTime=Date.now()+6*60*60*1000-30*60*1000;
         await Lpass.save({validateBeforeSave:false});
         res.status(200).json({success:true,message:"Library Pass Out Successful"})
+      }
+       
     } catch (error) {
         res.status(500).json({success:false,message:error.message})
     }
