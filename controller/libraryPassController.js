@@ -29,7 +29,7 @@ export const CreatePass=catchAsyncErrors(async(req,res,next)=>{
         }
         
      );
-     res.status(200).json({success:true,message:"Library Pass Created Sucessfully"})
+     res.status(200).json({success:true,message:"Library Pass Created Sucessfully",pass:Lpass})
     }
        
     } catch (error) {
